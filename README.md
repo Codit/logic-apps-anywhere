@@ -9,8 +9,8 @@ As part of their application modernization, Sello wants to run cloud-native appl
 
 Their landscape contains the following components:
 -	An **Order service** where customers can create an order
-  - This exposes a REST endpoint which is served by a .NET Core Web API. Every order request will check the warehouse service to see if the order is available and initiate a shipment
+    - This exposes a REST endpoint which is served by a .NET Core Web API. Every order request will check the warehouse service to see if the order is available and initiate a shipment
 -	A **Warehouse service** to manage the stock of products that are available
-  - Provides REST endpoint to verify stock of a product and update it once shipments are initiated. All stock information is stored in an on-premises SQL database.
+    - Provides REST endpoint to verify stock of a product and update it once shipments are initiated. All stock information is stored in an on-premises SQL database.
 -	A **Shipment service** to initiate shipments for orders
-  - Provides a REST endpoint to accept new shipment requests which will be handled asynchronously
+    - Provides a REST endpoint to accept new shipment requests which will be handled asynchronously
