@@ -1,0 +1,13 @@
+{
+  "serviceProviderConnections": {
+    "sql": {
+      "displayName": "localhost",
+      "parameterValues": {
+        "connectionString": "@appsetting('sql-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/sql"
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Invoke_a_function_in_this_function_app": {
+                "type": "InvokeFunction",
+                "inputs": {
+                    "functionName": "SelloShipmentFunction",
+                    "parameters": "@triggerBody()"
+                },
+                "runAfter": {}
+            }
+        },
+        "triggers": {
+            "manual": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "customerName": {
+                                "type": "string"
+                            },
+                            "customerEmail": {
+                                "type": "string"
+                            },
+                            "shipmentItems": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "itemId": {
+                                            "type": "integer"
+                                        },
+                                        "Qty": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "itemId",
+                                        "Qty"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}

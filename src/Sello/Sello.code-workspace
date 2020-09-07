@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "Sello.ShipmentService"
+		},
+		{
+			"path": "Sello.WarehouseService"
+		},
+		{
+			"path": "Sello.Model"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": []
+	}
+}
