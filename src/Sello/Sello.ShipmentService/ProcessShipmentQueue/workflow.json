@@ -2,10 +2,18 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Invoke_a_function_in_this_function_app": {
-                "type": "InvokeFunction",
-                "inputs": {
-                    "functionName": "SelloShipmentFunction"
+            "For_each": {
+                "type": "Foreach",
+                "foreach": "@triggerOutputs()?['body']",
+                "actions": {
+                    "Invoke_a_function_in_this_function_app": {
+                        "type": "InvokeFunction",
+                        "inputs": {
+                            "functionName": "SelloShipmentFunction",
+                            "parameters": "@json(item()?['contentData'])"
+                        },
+                        "runAfter": {}
+                    }
                 },
                 "runAfter": {}
             }

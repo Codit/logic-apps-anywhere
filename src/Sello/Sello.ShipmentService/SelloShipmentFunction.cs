@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Azure.Workflows.WebJobs.Extensions.Trigger;
 using Newtonsoft.Json.Linq;
+using Sello.Model;
 
 namespace Company.Function
 {
@@ -19,7 +20,8 @@ namespace Company.Function
            [WorkflowActionTrigger] JToken parameters,
            ILogger log)
         {
-            return new JObject { { "Message", "Shipment succeeded" } };
+            var shipmentRequest = parameters.Root.ToObject<ShipmentRequest>();
+            return new JObject { { "Message", $"Shipment for order: {shipmentRequest.OrderId} succeeded" } };
         }
     }
 }

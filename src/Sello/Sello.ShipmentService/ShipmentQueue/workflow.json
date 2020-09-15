@@ -2,11 +2,20 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Invoke_a_function_in_this_function_app": {
-                "type": "InvokeFunction",
+            "Send_Message": {
+                "type": "ServiceProvider",
                 "inputs": {
-                    "functionName": "SelloShipmentFunction",
-                    "parameters": "@triggerBody()"
+                    "parameters": {
+                        "entityName": "sello_shipment",
+                        "message": {
+                            "contentData": "@string(triggerBody())"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "sendMessage",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
                 },
                 "runAfter": {}
             }
