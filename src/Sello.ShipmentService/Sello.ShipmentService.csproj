@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7"/>
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -22,10 +22,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.0.6-preview" />
+    <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.0.6-preview"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sello.Model\Sello.Model.csproj" />
+    <ProjectReference Include="..\Sello.Model\Sello.Model.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <None Update="ConfirmationMail\**\*.*">
@@ -48,7 +48,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Update="ShipmentQueue\ProcessShipmentQueue\**\*.*">
+    <None Update="ProcessShipmentQueue\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -6,7 +6,7 @@
                 "type": "ServiceProvider",
                 "inputs": {
                     "parameters": {
-                        "entityName": "sello_shipment",
+                        "entityName": "selloshipmentqueue",
                         "message": {
                             "contentData": "@string(triggerBody())"
                         }

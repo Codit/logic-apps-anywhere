@@ -6,7 +6,7 @@
                 "type": "ServiceProvider",
                 "inputs": {
                     "parameters": {
-                        "query": "UPDATE PRODUCT SET Stock = Stock + @{triggerBody()?['qty']};"
+                        "query": "UPDATE PRODUCT SET Stock = Stock + @{triggerBody()?['qty']} WHERE Id = @{triggerBody()?['itemId']} ;"
                     },
                     "serviceProviderConfiguration": {
                         "connectionName": "sql",

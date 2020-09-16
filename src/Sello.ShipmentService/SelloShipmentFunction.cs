@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 using Microsoft.Azure.Workflows.WebJobs.Extensions.Trigger;
 using Newtonsoft.Json.Linq;
 using Sello.Model;
+using System.Net.Http;
+using System.Text;
+using System.Configuration;
 
 namespace Company.Function
 {
@@ -21,6 +24,24 @@ namespace Company.Function
            ILogger log)
         {
             var shipmentRequest = parameters.Root.ToObject<ShipmentRequest>();
+
+            //Update Stock
+            foreach (var item in shipmentRequest.ShipmentItems)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var stockUpdateRequest = new StockUpdateRequest()
+                    {
+                        ItemId = item.ItemId,
+                        Qty = item.Qty * -1
+                    };
+                    var content = new StringContent(JsonConvert.SerializeObject(stockUpdateRequest), Encoding.UTF8, "application/json");
+
+                    var response = httpClient.PostAsync(System.Environment.GetEnvironmentVariable("warehouse_setstockurl"), content).Result;
+                }
+            }
+            
+
             return new JObject { { "Message", $"Shipment for order: {shipmentRequest.OrderId} succeeded" } };
         }
     }

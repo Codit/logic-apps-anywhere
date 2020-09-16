@@ -8,6 +8,15 @@
       "serviceProvider": {
         "id": "/serviceProviders/sql"
       }
+    },
+    "serviceBus": {
+      "displayName": "sb-test",
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      }
     }
   }
 }

@@ -23,7 +23,7 @@
                 "type": "ServiceProvider",
                 "inputs": {
                     "parameters": {
-                        "queueName": "Sello_Shipment"
+                        "queueName": "selloshipmentqueue"
                     },
                     "serviceProviderConfiguration": {
                         "connectionName": "serviceBus",

@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Sello.Model;
 using Sello.OrderService.Model;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.Extensions.Configuration;
 
 namespace Sello.OrderService.Controllers
 {
@@ -18,6 +19,13 @@ namespace Sello.OrderService.Controllers
     [Route("api/v1/order")]
     public class OrderController : ControllerBase
     {
+        private IConfiguration _configuration;
+
+        public OrderController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -39,7 +47,7 @@ namespace Sello.OrderService.Controllers
                     var stockRequest = new StockRequest() { ItemId = orderItem.ItemId };
 
                     var content = new StringContent(JsonConvert.SerializeObject(stockRequest), Encoding.UTF8, "application/json");
-                    var response = client.PostAsync("http://localhost:7071/api/GetStock/triggers/manual/invoke?api-version=2020-05-01-preview&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qoxfi-Nlcx3ANTTeJuhDICO2_I1JuBtRLV56drBe3Wo", content).Result;
+                    var response = client.PostAsync(_configuration["StockService"], content).Result;
 
                     var stockResponse = JsonConvert.DeserializeObject<StockResponse>(await response.Content.ReadAsStringAsync());
 
@@ -55,18 +63,19 @@ namespace Sello.OrderService.Controllers
             if (isValidOrder)
             {
                 
-
+                //Send shipment
                 using (HttpClient client = new HttpClient())
                 {
                     var shipmentRequest = new ShipmentRequest()
                     {
                         CustomerEmail = order.Customer.Email,
                         CustomerName = order.Customer.Name,
+                        OrderId = order.OrderNr,
                         ShipmentItems = order.OrderItems.Select(o => new ShipmentItem() { ItemId = o.ItemId, Qty = o.Qty }).ToList()
                     };
 
                     var content = new StringContent(JsonConvert.SerializeObject(shipmentRequest), Encoding.UTF8, "application/json");
-                    client.PostAsync("http://localhost:7074/api/ShipmentFunction", content);
+                    var result = await client.PostAsync(_configuration["ShipmentService"], content);
                 }
 
 
