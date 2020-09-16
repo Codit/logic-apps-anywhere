@@ -1,0 +1,13 @@
+{
+  "serviceProviderConnections": {
+    "serviceBus": {
+      "displayName": "SelloSB",
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      }
+    }
+  }
+}

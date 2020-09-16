@@ -1,0 +1,22 @@
+{
+  "serviceProviderConnections": {
+    "sql": {
+      "displayName": "localhost",
+      "parameterValues": {
+        "connectionString": "@appsetting('sql-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/sql"
+      }
+    },
+    "serviceBus": {
+      "displayName": "sb-test",
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus-connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      }
+    }
+  }
+}

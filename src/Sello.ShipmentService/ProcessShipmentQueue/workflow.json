@@ -1,0 +1,40 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "For_each": {
+                "type": "Foreach",
+                "foreach": "@triggerOutputs()?['body']",
+                "actions": {
+                    "Invoke_a_function_in_this_function_app": {
+                        "type": "InvokeFunction",
+                        "inputs": {
+                            "functionName": "SelloShipmentFunction",
+                            "parameters": "@json(item()?['contentData'])"
+                        },
+                        "runAfter": {}
+                    }
+                },
+                "runAfter": {}
+            }
+        },
+        "triggers": {
+            "When_messages_are_available_in_Service_Bus_queue": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "queueName": "selloshipmentqueue"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus",
+                        "operationId": "receiveQueueMessages",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}

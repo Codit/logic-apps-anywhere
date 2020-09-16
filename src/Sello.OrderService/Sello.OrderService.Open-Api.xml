@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sello.OrderService</name>
+    </assembly>
+    <members>
+        <member name="T:Sello.OrderService.Controllers.HealthController">
+            <summary>
+            API endpoint to check the health of the application.
+            </summary>
+        </member>
+        <member name="M:Sello.OrderService.Controllers.HealthController.#ctor(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sello.OrderService.Controllers.HealthController"/> class.
+            </summary>
+            <param name="healthCheckService">The service to provide the health of the API application.</param>
+        </member>
+        <member name="M:Sello.OrderService.Controllers.HealthController.Get">
+            <summary>
+                Get Health
+            </summary>
+            <remarks>Provides an indication about the health of the API.</remarks>
+            <response code="200">API is healthy</response>
+            <response code="503">API is unhealthy or in degraded state</response>
+        </member>
+        <member name="M:Sello.OrderService.Controllers.OrderController.Create(Sello.OrderService.Model.Order)">
+            <summary>
+            
+            </summary>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sello.OrderService.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sello.OrderService.Startup"/> class.
+            </summary>
+        </member>
+        <member name="P:Sello.OrderService.Startup.Configuration">
+            <summary>
+            Gets the configuration of key/value application properties.
+            </summary>
+        </member>
+    </members>
+</doc>
