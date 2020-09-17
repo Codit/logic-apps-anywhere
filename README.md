@@ -15,7 +15,7 @@ Their landscape contains the following components:
 -	A **Shipment service** to initiate shipments for orders
     - Provides a REST endpoint to accept new shipment requests which will be handled asynchronously
 
-![sello-setup](/media/sello.png)
+![Sello Overview](./media/sello.png)
 
 ## How to run it?
 
