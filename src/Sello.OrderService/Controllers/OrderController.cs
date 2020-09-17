@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Sello.Model;
 using Sello.OrderService.Model;
@@ -19,7 +17,7 @@ namespace Sello.OrderService.Controllers
     [Route("api/v1/order")]
     public class OrderController : ControllerBase
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public OrderController(IConfiguration configuration)
         {
@@ -44,7 +42,7 @@ namespace Sello.OrderService.Controllers
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    var stockRequest = new StockRequest() { ItemId = orderItem.ItemId };
+                    var stockRequest = new StockRequest { ItemId = orderItem.ItemId };
 
                     var content = new StringContent(JsonConvert.SerializeObject(stockRequest), Encoding.UTF8, "application/json");
                     var response = client.PostAsync(_configuration["StockService"], content).Result;
@@ -66,12 +64,12 @@ namespace Sello.OrderService.Controllers
                 //Send shipment
                 using (HttpClient client = new HttpClient())
                 {
-                    var shipmentRequest = new ShipmentRequest()
+                    var shipmentRequest = new ShipmentRequest
                     {
                         CustomerEmail = order.Customer.Email,
                         CustomerName = order.Customer.Name,
                         OrderId = order.OrderNr,
-                        ShipmentItems = order.OrderItems.Select(o => new ShipmentItem() { ItemId = o.ItemId, Qty = o.Qty }).ToList()
+                        ShipmentItems = order.OrderItems.Select(o => new ShipmentItem { ItemId = o.ItemId, Qty = o.Qty }).ToList()
                     };
 
                     var content = new StringContent(JsonConvert.SerializeObject(shipmentRequest), Encoding.UTF8, "application/json");

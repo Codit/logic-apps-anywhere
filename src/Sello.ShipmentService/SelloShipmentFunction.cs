@@ -1,10 +1,4 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Azure.Workflows.WebJobs.Extensions.Trigger;
@@ -12,7 +6,6 @@ using Newtonsoft.Json.Linq;
 using Sello.Model;
 using System.Net.Http;
 using System.Text;
-using System.Configuration;
 
 namespace Company.Function
 {
@@ -30,7 +23,7 @@ namespace Company.Function
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var stockUpdateRequest = new StockUpdateRequest()
+                    var stockUpdateRequest = new StockUpdateRequest
                     {
                         ItemId = item.ItemId,
                         Qty = item.Qty * -1

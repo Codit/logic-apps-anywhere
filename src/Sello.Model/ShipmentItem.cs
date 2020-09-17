@@ -1,8 +1,8 @@
 ﻿namespace Sello.Model
 {
-    public class StockResponse
+    public class ShipmentItem
     {
         public int ItemId { get; set; }
-        public int Stock { get; set; }
+        public int Qty { get; set; }
     }
 }

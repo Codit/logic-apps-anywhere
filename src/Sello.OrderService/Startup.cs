@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
-using Arcus.WebApi.Logging.Correlation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Arcus.Security.Core.Caching;
-using Arcus.WebApi.Security.Authentication.SharedAccessKey;
 
 namespace Sello.OrderService
 {
     public class Startup
     {
-        private const string SharedAccessKeyHeaderName = "X-API-Key";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -51,18 +45,14 @@ namespace Sello.OrderService
 
                 RestrictToJsonContentType(options);
                 AddEnumAsStringRepresentation(options);
-
-                #warning Please provide a valid request header name and secret name to the shared access filter
-                options.Filters.Add(new SharedAccessKeyAuthenticationFilter(headerName: SharedAccessKeyHeaderName, queryParameterName: null, secretName: "MyConfigKey"));
             });
 
             services.AddHealthChecks();
             services.AddHttpCorrelation();
 
-#if DEBUG
             var openApiInformation = new OpenApiInfo
             {
-                Title = "Sello.OrderService",
+                Title = "Sello - Order API",
                 Version = "v1"
             };
 
@@ -73,29 +63,7 @@ namespace Sello.OrderService
 
                 swaggerGenerationOptions.OperationFilter<AddHeaderOperationFilter>("X-Transaction-Id", "Transaction ID is used to correlate multiple operation calls. A new transaction ID will be generated if not specified.", false);
                 swaggerGenerationOptions.OperationFilter<AddResponseHeadersFilter>();
-
-                swaggerGenerationOptions.AddSecurityDefinition("shared-access-key", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.ApiKey,
-                    In = ParameterLocation.Header,
-                    Name = SharedAccessKeyHeaderName,
-                    Description = "Authentication scheme based on shared access key"
-                });
-                swaggerGenerationOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    { 
-                        new OpenApiSecurityScheme
-                        {
-                            Description = "Globally authentication scheme based on shared access key",
-                            Reference = new OpenApiReference
-                            {
-                                Id = "shared-access-key",
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        }, new List<string>() }
-                });
             });
-#endif
         }
 
         private static void RestrictToJsonContentType(MvcOptions options)
@@ -133,21 +101,16 @@ namespace Sello.OrderService
             app.UseRouting();
             app.UseRequestTracking();
 
-#warning Please configure application with HTTPS transport layer security and set 'useSSL' in the Docker 'launchSettings.json' back to 'true'
-
-
-#if DEBUG
             app.UseSwagger(swaggerOptions =>
             {
                 swaggerOptions.RouteTemplate = "api/{documentName}/docs.json";
             });
             app.UseSwaggerUI(swaggerUiOptions =>
             {
-                swaggerUiOptions.SwaggerEndpoint("/api/v1/docs.json", "Sello.OrderService");
+                swaggerUiOptions.SwaggerEndpoint("/api/v1/docs.json", "Sello - Order API");
                 swaggerUiOptions.RoutePrefix = "api/docs";
-                swaggerUiOptions.DocumentTitle = "Sello.OrderService";
+                swaggerUiOptions.DocumentTitle = "Sello - Order API";
             });
-#endif
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
         }
