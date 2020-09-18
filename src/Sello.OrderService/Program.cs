@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -49,12 +44,10 @@ namespace Sello.OrderService
                     .ConfigureAppConfiguration(configBuilder => configBuilder.AddConfiguration(configuration))
                     .ConfigureSecretStore((config, stores) =>
                     {
-//#if DEBUG
-                        stores.AddConfiguration(config);
-//#endif
-
-                        //#error Please provide a valid secret provider, for example Azure Key Vault: https://security.arcus-azure.net/features/secrets/consume-from-key-vault
-                        stores.AddAzureKeyVaultWithManagedServiceIdentity("https://your-keyvault-vault.azure.net/");
+#if DEBUG
+                        stores.AddConfiguration(configuration);
+#endif
+                        stores.AddEnvironmentVariables();
                     })
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
