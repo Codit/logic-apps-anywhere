@@ -19,17 +19,7 @@ Their landscape contains the following components:
 
 ## How to run it?
 
-### Build the different services as docker Images
-
-```shell
-❯ docker build --tag sello-orderservice -f Sello.OrderService/Dockerfile --no-cache .
-
-❯ docker build --tag sello-warehouseservice -f Sello.WarehouseService/Dockerfile --no-cache .
-
-❯ docker build --tag sello-shipmentservice -f Sello.ShipmentService/Dockerfile -no-cache .
-```
-
-### Local SQL DB
+### Pre-requisites
 
 Create a product table in a (local) sql server
 
@@ -40,7 +30,17 @@ CREATE TABLE [dbo].[Product](
 	[Stock] [int] NOT NULL)
 ```
 
-### Run the WarehouseService Docker image:
+### Running our services
+
+#### Running the Warehouse service
+
+We'll start by building the image:
+
+```shell
+❯ docker build .\src\ --tag sello-warehouseservice -f .\src\Sello.WarehouseService\Dockerfile --no-cache
+```
+
+You can easily run the service locally:
 
 ```shell
 ❯ docker run -d -p 5002:80 -e "AzureWebJobsStorage=<connection-string>" -e "sql-connectionString=<local-sql-connection-string>" sello-warehouseservice
@@ -61,7 +61,7 @@ Get the callback URL for GetStock Logic App via cURL:
   }
 }
 
-IMPORTANT: When using those trigger url's, don't forget to change the url for using in your docker container. 
+> ⚠ *When using those trigger url's, don't forget to change the url for using in your docker container.*
 
 Get the callback URL for UpdateStock Logic App  via cURL:
 ```shell
@@ -79,7 +79,15 @@ Get the callback URL for UpdateStock Logic App  via cURL:
 }
 ```
 
-### Run the ShipmentService Docker image:
+#### Running the Shipment service
+
+We'll start by building the image:
+
+```shell
+❯ docker build .\src\ --tag sello-shipmentservice -f .\src\Sello.ShipmentService\Dockerfile --no-cache
+```
+
+You can easily run the service locally:
 
 ```shell
 ❯ docker run -d -p 5001:80 -e "AzureWebJobsStorage=<connection-string>" -e "servicebus-connectionString=<servicebus-connection-string>" -e "warehouse_setstockurl=<url-of-updatestock-logicapp>"  sello-shipmentservice
@@ -101,13 +109,21 @@ Get the callback URL for ShipmentQueue Logic App  via cURL:
 }
 ```
 
-### Run the Order API Docker image:
+#### Running the Order API
+
+We'll start by building the image:
+
+```shell
+❯ docker build .\src\ --tag sello-orderservice -f .\src\Sello.OrderService\Dockerfile --no-cache
+```
+
+You can easily run the service locally:
 
 ```shell
 ❯ docker run -d -p 5000:80 -e "ShipmentService=<url-of-shipmentqueue-logicapp>" -e "StockService=<url-of-getstock-logicapp>" sello-orderservice
 ```
 
-### Create an order
+##### Create an order
 
 Order Example
 ```json
